@@ -17,7 +17,7 @@ describe MessagePack do
     if /java/ =~ RUBY_PLATFORM
       skip "Unpacker#unpack returns nil in JRuby (incompatible)"
     end
-    unpacker = Unpacker.new(:symbolize_keys => true)
+    unpacker = MessagePack::Unpacker.new(:symbolize_keys => true)
     symbolized_hash = {:a => 'b', :c => 'd'}
     unpacker.feed(MessagePack.pack(symbolized_hash)).read.should == symbolized_hash
   end
