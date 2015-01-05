@@ -28,11 +28,33 @@ spec = eval File.read("msgpack.gemspec")
 if RUBY_PLATFORM =~ /java/
   require 'rake/javaextensiontask'
 
-  Rake::JavaExtensionTask.new('msgpack', spec) do |ext|
-    ext.ext_dir = 'ext/java'
-    ext.lib_dir = File.join(*['lib', 'msgpack', ENV['FAT_DIR']].compact)
-    ext.classpath = Dir['lib/msgpack/java/*.jar'].map { |x| File.expand_path x }.join ':'
+  task :compile do
+    require 'rbconfig'
+    jruby_jar_path = File.expand_path(File.join(File.dirname(RbConfig.ruby), "..", "lib", "jruby.jar"))
+    classpath = (Dir["lib/ext/*.jar"] + [jruby_jar_path]).join(':')
+    system %(javac -Xlint:-options -deprecation -source 1.6 -target 1.6 -cp #{classpath} ext/java/*.java ext/java/org/msgpack/jruby/*.java)
+    exit($?.exitstatus) unless $?.success?
   end
+
+  task :package => :compile do
+    class_files = Dir['ext/java/**/*.class'].map { |path| path = path.sub('ext/java/', ''); "-C ext/java '#{path}'" }
+    system %(jar cf lib/ext/msgpack_jruby.jar #{class_files.join(' ')})
+    exit($?.exitstatus) unless $?.success?
+  end
+
+  # task :release => :package do
+  #   version_string = "v#{MessagePack::VERSION}"
+  #   unless %x(git tag -l).split("\n").include?(version_string)
+  #     system %(git tag -a #{version_string} -m #{version_string})
+  #   end
+  #   system %(gem build msgpack-jruby.gemspec && gem push msgpack-jruby-*.gem && mv msgpack-jruby-*.gem pkg)
+  # end
+
+  # Rake::JavaExtensionTask.new('msgpack', spec) do |ext|
+  #   ext.ext_dir = 'ext/java'
+  #   ext.lib_dir = File.join(*['lib', 'msgpack', ENV['FAT_DIR']].compact)
+  #   ext.classpath = Dir['lib/msgpack/java/*.jar'].map { |x| File.expand_path x }.join ':'
+  # end
 
   RSpec::Core::RakeTask.new(:spec) do |t|
     t.rspec_opts = ["-c", "-f progress"]
@@ -59,7 +81,9 @@ else
   end
 end
 
+# require "rake/clean" ?
 CLEAN.include('lib/msgpack/msgpack.*')
+CLEAN.include('ext/java/**/*.class')
 
 task :default => [:spec, :build, :doc]
 

@@ -16,3 +16,6 @@ tmp
 /nbproject/private/
 ext/java/build
 ext/java/msgpack.jar
+/.ruby-version
+/benchmark
+/lib/ext/msgpack_jruby.jar

@@ -13,9 +13,20 @@ if ENV['GC_STRESS']
   GC.stress = true
 end
 
-require 'msgpack'
+if /java/ =~ RUBY_PLATFORM
+  # require 'bundler/setup'
+  require 'msgpack'
+  require 'jruby'
 
-Packer = MessagePack::Packer
-Unpacker = MessagePack::Unpacker
-Buffer = MessagePack::Buffer
+  RSpec.configure do |c|
+    c.treat_symbols_as_metadata_keys_with_true_values = true
+    c.filter_run_excluding :encodings => !(defined? Encoding)
+  end
+  Unpacker = MessagePack::Unpacker
 
+else
+  require 'msgpack'
+  Packer = MessagePack::Packer
+  Unpacker = MessagePack::Unpacker
+  Buffer = MessagePack::Buffer
+end
