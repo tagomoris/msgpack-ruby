@@ -5,7 +5,7 @@ if /java/ =~ RUBY_PLATFORM
     def to_msgpack(io=nil)
       return MessagePack.pack(self) unless io
       io << MessagePack.pack(self)
-      io
+      nil
     end
   end
 
@@ -13,7 +13,7 @@ if /java/ =~ RUBY_PLATFORM
     def to_msgpack(io=nil)
       return MessagePack.pack(self) unless io
       io << MessagePack.pack(self)
-      io
+      nil
     end
   end
 
@@ -21,7 +21,7 @@ if /java/ =~ RUBY_PLATFORM
     def to_msgpack(io=nil)
       return MessagePack.pack(self) unless io
       io << MessagePack.pack(self)
-      io
+      nil
     end
   end
 
@@ -29,7 +29,7 @@ if /java/ =~ RUBY_PLATFORM
     def to_msgpack(io=nil)
       return MessagePack.pack(self) unless io
       io << MessagePack.pack(self)
-      io
+      nil
     end
   end
 
@@ -37,7 +37,7 @@ if /java/ =~ RUBY_PLATFORM
     def to_msgpack(io=nil)
       return MessagePack.pack(self) unless io
       io << MessagePack.pack(self)
-      io
+      nil
     end
   end
 
@@ -45,7 +45,7 @@ if /java/ =~ RUBY_PLATFORM
     def to_msgpack(io=nil)
       return MessagePack.pack(self) unless io
       io << MessagePack.pack(self)
-      io
+      nil
     end
   end
 
@@ -53,7 +53,7 @@ if /java/ =~ RUBY_PLATFORM
     def to_msgpack(io=nil)
       return MessagePack.pack(self) unless io
       io << MessagePack.pack(self)
-      io
+      nil
     end
   end
 
@@ -61,7 +61,7 @@ if /java/ =~ RUBY_PLATFORM
     def to_msgpack(io=nil)
       return MessagePack.pack(self) unless io
       io << MessagePack.pack(self)
-      io
+      nil
     end
   end
 
@@ -69,7 +69,7 @@ if /java/ =~ RUBY_PLATFORM
     def to_msgpack(io=nil)
       return MessagePack.pack(self) unless io
       io << MessagePack.pack(self)
-      io
+      nil
     end
   end
 
@@ -77,7 +77,7 @@ if /java/ =~ RUBY_PLATFORM
     def to_msgpack(io=nil)
       return MessagePack.pack(self) unless io
       io << MessagePack.pack(self)
-      io
+      nil
     end
   end
 end
